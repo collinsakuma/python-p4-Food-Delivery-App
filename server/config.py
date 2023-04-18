@@ -10,9 +10,10 @@ from sqlalchemy import MetaData
 from flask_bcrypt import Bcrypt
 
 # Local imports
-
+#$ python -c 'import os; print(os.urandom(16))'   generate secret key in CLI
 # Instantiate app, set attributes
 app = Flask(__name__)
+app.secret_key = b'\x90e\x1c\x8a\x03\x0f\x0b\xd1\xd8\x1b"\x90\xcb\xe1\x93"'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///delivery.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False

@@ -39,6 +39,39 @@ class Signup(Resource):
         
 api.add_resource(Signup, '/signup')
 
+class CheckSession(Resource):
+    def get(self):
+        try:
+            user = User.query.filter_by(id=session['user_id']).first()
+            return make_response(user.to_dict(), 200)
+        except:
+            return make_response({"error": "Unauthorized"}, 401)
+        
+api.add_resource(CheckSession, '/check_session')
+
+class Login(Resource):
+    def post(self):
+        request_json = request.get_json()
+        username = request_json.get('username')
+        password = request_json.get('password')
+        user = User.query.filter(User.username == username).first()
+        if user:
+            if user.authenticate(password):
+                session['user_id'] = user.id
+                return make_response(user.to_dict(), 200)
+        return make_response({"error": "401 Unauthroized"},401)
+    
+api.add_resource(Login, '/login')
+
+class Logout(Resource):
+    def delete(self):
+        if session.get('user_id'):
+            session['user_id'] = None
+            return make_response({"message": "Logout Sucessful"}, 204)
+        return make_response({"error": "401 Unauthorized"}, 401)
+
+api.add_resource(Logout, '/logout')
+
 class Items(Resource):
 
     def get(self):
