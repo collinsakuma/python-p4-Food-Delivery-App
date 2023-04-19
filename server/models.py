@@ -58,10 +58,13 @@ class Item(db.Model, SerializerMixin):
 class Order(db.Model, SerializerMixin):
     __tablename__ = 'orders'
 
-    serialize_rules = ('-created_at', '-updated_at', '-users', '-items')
+    serialize_rules = ('-created_at', '-updated_at', '-items','-users')
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     item_id = db.Column(db.Integer, db.ForeignKey('items.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    quantity = db.Column(db.Integer)
+    status = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+

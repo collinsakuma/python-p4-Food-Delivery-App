@@ -15,6 +15,7 @@ if __name__ == '__main__':
     with app.app_context():
         print("Deleting records...")
         Item.query.delete()
+        User.query.delete()
 
         print("Creating Items...")
 
@@ -69,6 +70,8 @@ if __name__ == '__main__':
             img_url = 'another image'
         )
         user_2.password_hash = user_2.username + 'password'
+
+        
 
         # Seed code goes here!
         db.session.add_all([item_1, item_2, item_3, item_4, item_5, user_1, user_2])
